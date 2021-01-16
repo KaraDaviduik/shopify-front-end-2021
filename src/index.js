@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
+import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
 
+// ReactDOM.render(<App />, document.getElementById('root'));
+// function Hello() {
+//   return (
+  
+//   <h1>Hello world.</h1>
+  
+  
+//   );
+// }
 
-function Hello() {
-  return <h1>Hello world.</h1>;
-}
-
-const el = <Hello />; 
-ReactDOM.render(
-  el, 
+// const el = <Hello />; 
+ReactDOM.render(<App />,
   document.getElementById('root')
 );
 
