@@ -47,7 +47,7 @@ const App = () => {
     const DisplayBanner = () => {
         if (nominees.length >= 5) {
             return (
-                <div class="banner"> 
+                <div class="banner">
                     <div class="banner-content">
                         <h1>
                             Movie nomination complete!
@@ -67,39 +67,39 @@ const App = () => {
 
     }
 
-    const RemoveNomination = ({movie}) => {
+    const RemoveNomination = ({ movie }) => {
         // window.alert(JSON.stringify(nominees[0].movie.Title));
         // window.alert(JSON.stringify({movie}.movie.Title));
         // window.alert(JSON.stringify(nominees.filter((nominee) => nominee.movie.Title === {movie}.movie.Title)));
-        setNominees(nominees.filter((nominee) => nominee.movie.Title !== {movie}.movie.Title));
+        setNominees(nominees.filter((nominee) => nominee.movie.Title !== { movie }.movie.Title));
         movie.Nominated = "false";
 
     }
 
-    const NominateMovie = ({movie}) => {
+    const NominateMovie = ({ movie }) => {
         // window.alert(`nominate: ${movie}`);
-        if (nominees.length <5) {
-            setNominees(nominees => nominees.concat({movie}));
+        if (nominees.length < 5) {
+            setNominees(nominees => nominees.concat({ movie }));
             movie.Nominated = "true";
         }
 
-        
+
     }
 
-    const CheckIfNominated = ({movie}) => {
+    const CheckIfNominated = ({ movie }) => {
         // value={searchQuery} onChange={updateSearchQuery}
-        if (({movie}.movie.Nominated) === "false") {
-            
-            
+        if (({ movie }.movie.Nominated) === "false") {
+
+
             // window.alert(JSON.stringify({movie}.movie));
-            NominateMovie({movie});
+            NominateMovie({ movie });
             // <NominateMovie movie={movie} />
             // NominateMovie({movie});
         }
         else {
             // window.alert(JSON.stringify({movie}.movie));
         }
-        {/* console.log({movie}); */}
+        {/* console.log({movie}); */ }
         // <NominateMovie movie={movie} />
 
 
@@ -107,28 +107,32 @@ const App = () => {
 
     const Movie = ({ movie }) => {
         //  window.alert(JSON.stringify(Object.keys({movie}.movie)));
-        if (({movie}.movie).hasOwnProperty("Nominated")) {
+        if (!({ movie }.movie).hasOwnProperty("Nominated")) {
+            movie.Nominated = "false";
             // window.alert(`FOUND: ${JSON.stringify({movie})}`);
             // if ({movie}.movie.Nominated) {
             // }
         }
-        else {
-            movie.Nominated="false";
+        if(nominees.some((nominee) => nominee.movie.Title === { movie }.movie.Title)) {
+            movie.Nominated="true";
         }
-        
+
+            
+
+
         return (
             // <li></li>
             <div className="Movie">
-                <p>{movie.Title} ({movie.Year}) <button onClick={() => CheckIfNominated({movie})}>Nominate</button></p>
+                <p>{movie.Title} ({movie.Year}) <button onClick={() => CheckIfNominated({ movie })}>Nominate</button></p>
             </div>
             // movieResults.movie = 'false';
         )
     }
 
-    const NominatedMovie = ({movie}) => {
+    const NominatedMovie = ({ movie }) => {
         return (
             <div className="Movie">
-                <p>{movie.Title} ({movie.Year}) <button onClick={() => RemoveNomination({movie})}>Remove</button></p>
+                <p>{movie.Title} ({movie.Year}) <button onClick={() => RemoveNomination({ movie })}>Remove</button></p>
             </div>
         )
     }
@@ -139,9 +143,9 @@ const App = () => {
         const arr = props.data;
         // window.alert(`LIST: ${props}`);
         const listItems = arr.map((val, index) =>
-        <li key={JSON.stringify(val.movie.Title)}><NominatedMovie movie={val.movie} /></li>
+            <li key={JSON.stringify(val.movie.Title)}><NominatedMovie movie={val.movie} /></li>
         );
-        
+
         return <ul>{listItems}</ul>;
     }
     function MyList(props) {
@@ -151,26 +155,6 @@ const App = () => {
         );
         return <ul>{listItems}</ul>;
     }
-
-
-    // }
-    // useEffect(() => {
-    //     // setLoading(true);
-    //     // setMovieResults([]);
-    //     // window.alert("TEST");
-    //     fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=${APIKey}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             // window.alert("TEST");
-    //             setMovieResults(data.Search);
-
-    //             window.alert({movieResults});
-
-    //             // console.log(movieResults);
-    //         })
-    //     // setLoading(false);
-
-    // }, [searchQuery]);
 
     const clearInput = () => {
         setSearchQuery("");
