@@ -32,6 +32,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h2 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  /* padding: 10px; */
+
+}
+
+p {
+  margin-top: 0px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
