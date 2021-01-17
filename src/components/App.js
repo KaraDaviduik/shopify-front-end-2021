@@ -36,7 +36,7 @@ const App = () => {
     }
 
     const RemoveNomination = ({ movie }) => {
-        setNominees(nominees.filter((nominee) => nominee.movie.Title !== { movie }.movie.Title));
+        setNominees(nominees.filter((nominee) => nominee.movie.imdbID !== { movie }.movie.imdbID));
         movie.Nominated = false;
 
     }
@@ -54,19 +54,23 @@ const App = () => {
         }
     }
 
+    const DisableCheck = ({movie}) => {
+        return (movie.Nominated || nominees.length>=5);
+    }
+
     const Movie = ({ movie }) => {
         console.log(movie);
         if (!({ movie }.movie).hasOwnProperty("Nominated")) {
             movie.Nominated = false;
 
         }
-        if(nominees.some((nominee) => nominee.movie.Title === { movie }.movie.Title)) {
+        if(nominees.some((nominee) => nominee.movie.imdbID === { movie }.movie.imdbID)) {
             movie.Nominated=true;
         }
 
         return (
             <div className="Movie">
-                <p>{movie.Title} ({movie.Year}) <button disabled={movie.Nominated} onClick={() => CheckIfNominated({ movie })}>Nominate</button></p>
+                <p>{movie.Title} ({movie.Year}) <button disabled={DisableCheck({movie})} onClick={() => CheckIfNominated({ movie })}>Nominate</button></p>
             </div>
         )
     }
@@ -79,11 +83,10 @@ const App = () => {
         )
     }
 
-
     function NominationList(props) {
         const arr = props.data;
         const listItems = arr.map((val, index) =>
-            <li key={JSON.stringify(val.movie.Title)}><NominatedMovie movie={val.movie} /></li>
+            <li key={JSON.stringify(val.movie.imdbID)}><NominatedMovie movie={val.movie} /></li>
         );
 
         return <ul>{listItems}</ul>;
@@ -91,7 +94,7 @@ const App = () => {
     function MyList(props) {
         const arr = props.data;
         const listItems = arr.map((val, index) =>
-            <li key={JSON.stringify(val.Title)}><Movie movie={val} /></li>
+            <li key={JSON.stringify(val.imdbID)}><Movie movie={val} /></li>
         );
         return <ul>{listItems}</ul>;
     }
