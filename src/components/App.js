@@ -44,6 +44,29 @@ const App = () => {
         setSearchQuery(e.target.value);
     }
 
+    const DisplayBanner = () => {
+        if (nominees.length >= 5) {
+            return (
+                <div class="banner"> 
+                    <div class="banner-content">
+                        <h1>
+                            Movie nomination complete!
+                        </h1>
+                    </div>
+                </div>
+
+            )
+        }
+        else {
+            return (
+                <div class="empty">
+
+                </div>
+            )
+        }
+
+    }
+
     const RemoveNomination = ({movie}) => {
         // window.alert(JSON.stringify(nominees[0].movie.Title));
         // window.alert(JSON.stringify({movie}.movie.Title));
@@ -55,14 +78,19 @@ const App = () => {
 
     const NominateMovie = ({movie}) => {
         // window.alert(`nominate: ${movie}`);
-        setNominees(nominees => nominees.concat({movie}));
+        if (nominees.length <5) {
+            setNominees(nominees => nominees.concat({movie}));
+            movie.Nominated = "true";
+        }
+
+        
     }
 
     const CheckIfNominated = ({movie}) => {
         // value={searchQuery} onChange={updateSearchQuery}
         if (({movie}.movie.Nominated) === "false") {
             
-            movie.Nominated = "true";
+            
             // window.alert(JSON.stringify({movie}.movie));
             NominateMovie({movie});
             // <NominateMovie movie={movie} />
@@ -71,7 +99,7 @@ const App = () => {
         else {
             // window.alert(JSON.stringify({movie}.movie));
         }
-        console.log({movie});
+        {/* console.log({movie}); */}
         // <NominateMovie movie={movie} />
 
 
@@ -224,7 +252,7 @@ const App = () => {
                 <div class="column">
                     <h2>Nominations</h2>
                     <NominationList data={nominees} />
-
+                    <DisplayBanner />
                 </div>
 
             </div>
