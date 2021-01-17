@@ -130,7 +130,7 @@ const App = () => {
 
     return (
         <div className="App">
-            <h1>The Shoppies</h1>
+            <h1 style={{textAlign: 'center'}}>The Shoppies</h1>
             <div class="row">
                 <div class="column">
                     <h2>Search Movie Titles</h2>
