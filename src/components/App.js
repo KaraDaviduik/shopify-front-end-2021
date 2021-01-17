@@ -41,7 +41,8 @@ function MyList(props) {
 const App = () => {
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [movieResults, setMovieResults] = useState(null);
+    const [APIQuery, setAPIQuery] = useState("");
+    const [movieResults, setMovieResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     // const [loading, setLoading] = useState(false);
@@ -84,6 +85,7 @@ const App = () => {
         // window.alert("callSearch");
         e.preventDefault();
         search(searchQuery);
+        setAPIQuery(searchQuery);
         clearInput();
 
     }
@@ -150,7 +152,7 @@ const App = () => {
 
             <div class="row">
                 <div class="column">
-                    <h2>Results</h2>
+                    <h2>Results for "{APIQuery}"</h2>
                     
                     <MyList data={movieResults} />
                     
