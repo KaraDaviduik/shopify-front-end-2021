@@ -115,7 +115,7 @@ const App = () => {
         setMovieResults([]);
         setLoading(true);
         setError(null);
-        fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=3b047afd`)
+        fetch(`https://www.omdbapi.com/?s=${searchQuery}&apikey=3b047afd`)
             .then(resp => resp.json())
             .then(response => {
                 if (response.Response === "True") {
