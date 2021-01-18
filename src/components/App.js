@@ -27,35 +27,33 @@ const App = () => {
                 </div>
             )
         }
-        else {
-            return (
-                <div class="empty">
-                </div>
-            )
-        }
+        return (
+            <div class="empty">
+            </div>
+        )
     }
 
-    const RemoveNomination = ({ movie }) => {
+    const removeNomination = ({ movie }) => {
         setNominees(nominees.filter((nominee) => nominee.movie.imdbID !== { movie }.movie.imdbID));
         movie.Nominated = false;
 
     }
 
-    const NominateMovie = ({ movie }) => {
+    const nominateMovie = ({ movie }) => {
         if (nominees.length < 5) {
             setNominees(nominees => nominees.concat({ movie }));
             movie.Nominated = true;
         }
     }
 
-    const CheckIfNominated = ({ movie }) => {
+    const checkIfNominated = ({ movie }) => {
         if (!({ movie }.movie.Nominated)) {
-            NominateMovie({ movie });
+            nominateMovie({ movie });
         }
     }
 
-    const DisableCheck = ({movie}) => {
-        return (movie.Nominated || nominees.length>=5);
+    const checkButtonStatus = ({ movie }) => {
+        return (movie.Nominated || nominees.length >= 5);
     }
 
     const Movie = ({ movie }) => {
@@ -64,13 +62,13 @@ const App = () => {
             movie.Nominated = false;
 
         }
-        if(nominees.some((nominee) => nominee.movie.imdbID === { movie }.movie.imdbID)) {
-            movie.Nominated=true;
+        if (nominees.some((nominee) => nominee.movie.imdbID === { movie }.movie.imdbID)) {
+            movie.Nominated = true;
         }
 
         return (
             <div className="Movie">
-                <p>{movie.Title} ({movie.Year}) <button disabled={DisableCheck({movie})} onClick={() => CheckIfNominated({ movie })}>Nominate</button></p>
+                <p>{movie.Title} ({movie.Year}) <button disabled={checkButtonStatus({ movie })} onClick={() => checkIfNominated({ movie })}>Nominate</button></p>
             </div>
         )
     }
@@ -78,7 +76,7 @@ const App = () => {
     const NominatedMovie = ({ movie }) => {
         return (
             <div className="Movie">
-                <p>{movie.Title} ({movie.Year}) <button onClick={() => RemoveNomination({ movie })}>Remove</button></p>
+                <p>{movie.Title} ({movie.Year}) <button onClick={() => removeNomination({ movie })}>Remove</button></p>
             </div>
         )
     }
@@ -91,7 +89,7 @@ const App = () => {
 
         return <ul>{listItems}</ul>;
     }
-    function MyList(props) {
+    function MovieList(props) {
         const arr = props.data;
         const listItems = arr.map((val, index) =>
             <li key={JSON.stringify(val.imdbID)}><Movie movie={val} /></li>
@@ -108,7 +106,6 @@ const App = () => {
         search(searchQuery);
         setAPIQuery(searchQuery);
         clearInput();
-
     }
 
     const search = searchQuery => {
@@ -130,33 +127,28 @@ const App = () => {
 
     return (
         <div className="App">
-            <h1 style={{textAlign: 'center'}}>The Shoppies</h1>
+            <h1 style={{ textAlign: 'center' }}>The Shoppies</h1>
             <div class="row">
                 <div class="column">
                     <h2>Search Movie Titles</h2>
-                    <div class="wrap">
-                        <div class="search">
-                            <form onSubmit={callSearch}>
-                                <input type="text" value={searchQuery} onChange={updateSearchQuery} />
-                                <input type="submit" />
-                            </form>
-
-                        </div>
-                    </div>
+                    <form onSubmit={callSearch}>
+                        <input type="text" value={searchQuery} onChange={updateSearchQuery} />
+                        <input type="submit" />
+                    </form>
                 </div>
             </div>
 
             <div class="row">
                 <div class="column">
                     <h2>Results for "{APIQuery}"</h2>
-                        {loading &&
+                    {loading &&
                         <p>Loading...</p>
-                        }
-                        {(error != null) && 
-                            <p>Error: {error}</p>
-                        }
+                    }
+                    {(error != null) &&
+                        <p>Error: {error}</p>
+                    }
 
-                    <MyList data={movieResults} />
+                    <MovieList data={movieResults} />
 
                 </div>
 
@@ -165,9 +157,7 @@ const App = () => {
                     <NominationList data={nominees} />
                     <DisplayBanner />
                 </div>
-
             </div>
-
         </div>
     );
 };
