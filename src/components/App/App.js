@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "../App.css";
-
+import "./App.css";
+import {MovieList} from './components/MovieList/MovieList';
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -10,67 +10,15 @@ const App = () => {
     const [error, setError] = useState(null);
     const [nominees, setNominees] = useState([]);
 
-
     function updateSearchQuery(e) {
         setSearchQuery(e.target.value);
     }
 
-    const DisplayBanner = () => {
-        if (nominees.length >= 5) {
-            return (
-                <div class="banner">
-                    <div class="banner-content">
-                        <h1>
-                            Movie nomination complete!
-                        </h1>
-                    </div>
-                </div>
-            )
-        }
-        return (
-            <div class="empty">
-            </div>
-        )
-    }
 
     const removeNomination = ({ movie }) => {
         setNominees(nominees.filter((nominee) => nominee.movie.imdbID !== { movie }.movie.imdbID));
         movie.Nominated = false;
 
-    }
-
-    const nominateMovie = ({ movie }) => {
-        if (nominees.length < 5) {
-            setNominees(nominees => nominees.concat({ movie }));
-            movie.Nominated = true;
-        }
-    }
-
-    const checkIfNominated = ({ movie }) => {
-        if (!({ movie }.movie.Nominated)) {
-            nominateMovie({ movie });
-        }
-    }
-
-    const checkButtonStatus = ({ movie }) => {
-        return (movie.Nominated || nominees.length >= 5);
-    }
-
-    const Movie = ({ movie }) => {
-        console.log(movie);
-        if (!({ movie }.movie).hasOwnProperty("Nominated")) {
-            movie.Nominated = false;
-
-        }
-        if (nominees.some((nominee) => nominee.movie.imdbID === { movie }.movie.imdbID)) {
-            movie.Nominated = true;
-        }
-
-        return (
-            <div className="Movie">
-                <p>{movie.Title} ({movie.Year}) <button disabled={checkButtonStatus({ movie })} onClick={() => checkIfNominated({ movie })}>Nominate</button></p>
-            </div>
-        )
     }
 
     const NominatedMovie = ({ movie }) => {
@@ -89,12 +37,23 @@ const App = () => {
 
         return <ul>{listItems}</ul>;
     }
-    function MovieList(props) {
-        const arr = props.data;
-        const listItems = arr.map((val, index) =>
-            <li key={JSON.stringify(val.imdbID)}><Movie movie={val} /></li>
-        );
-        return <ul>{listItems}</ul>;
+
+    const DisplayBanner = () => {
+        if (nominees.length >= 5) {
+            return (
+                <div class="banner">
+                    <div class="banner-content">
+                        <h1>
+                            Movie nomination complete!
+                        </h1>
+                    </div>
+                </div>
+            )
+        }
+        return (
+            <div class="empty">
+            </div>
+        )
     }
 
     const clearInput = () => {
@@ -125,6 +84,14 @@ const App = () => {
             })
     }
 
+    const nominateMovie = movie => {
+        // nominate movie
+        console.log("nominate movie", movie);
+
+        setNominees(nominees => nominees.concat({ movie }));
+        movie.Nominated = true;
+    }
+
     return (
         <div className="App">
             <h1 style={{ textAlign: 'center' }}>The Shoppies</h1>
@@ -148,8 +115,7 @@ const App = () => {
                         <p>Error: {error}</p>
                     }
 
-                    <MovieList data={movieResults} />
-
+                    <MovieList movieResults={movieResults} nominees={nominees} onNominate={nominateMovie} />
                 </div>
 
                 <div class="column">
