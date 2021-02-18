@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
 import { MovieList } from "./components/MovieList/MovieList";
+import { DisplayBanner } from "./components/DisplayBanner/DisplayBanner";
+import { NominationList } from "./components/NominationList/NominationList";
+
+/**
+ * TODO
+ * - const vs function
+ */
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,41 +28,6 @@ const App = () => {
       )
     );
     movie.Nominated = false;
-  };
-
-  const NominatedMovie = ({ movie }) => {
-    return (
-      <div className="Movie">
-        <p>
-          {movie.Title} ({movie.Year}){" "}
-          <button onClick={() => removeNomination({ movie })}>Remove</button>
-        </p>
-      </div>
-    );
-  };
-
-  function NominationList(props) {
-    const arr = props.data;
-    const listItems = arr.map((val, index) => (
-      <li key={JSON.stringify(val.movie.imdbID)}>
-        <NominatedMovie movie={val.movie} />
-      </li>
-    ));
-
-    return <ul>{listItems}</ul>;
-  }
-
-  const DisplayBanner = () => {
-    if (nominees.length >= 5) {
-      return (
-        <div class="banner">
-          <div class="banner-content">
-            <h1>Movie nomination complete!</h1>
-          </div>
-        </div>
-      );
-    }
-    return <div class="empty"></div>;
   };
 
   const clearInput = () => {
@@ -86,9 +58,6 @@ const App = () => {
   };
 
   const nominateMovie = (movie) => {
-    // nominate movie
-    console.log("nominate movie", movie);
-
     setNominees((nominees) => nominees.concat({ movie }));
     movie.Nominated = true;
   };
@@ -125,8 +94,11 @@ const App = () => {
 
         <div class="column">
           <h2>Nominations</h2>
-          <NominationList data={nominees} />
-          <DisplayBanner />
+          <NominationList
+            nominees={nominees}
+            removeNomination={removeNomination}
+          />
+          <DisplayBanner nominees={nominees} />
         </div>
       </div>
     </div>

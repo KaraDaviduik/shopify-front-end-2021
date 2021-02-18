@@ -1,5 +1,4 @@
 export const Movie = ({ movie, nominees, onNominate }) => {
-  console.log(movie);
   if (!{ movie }.movie.hasOwnProperty("Nominated")) {
     movie.Nominated = false;
   }
@@ -38,8 +37,6 @@ const checkIfNominated = ({ movie, onNominate, nominees }) => {
 
 const nominateMovie = ({ movie, onNominate, nominees }) => {
   if (nominees.length < 5) {
-    // setNominees(nominees => nominees.concat({ movie }));
-    // movie.Nominated = true;
     onNominate(movie);
   }
 };
