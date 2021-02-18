@@ -3,6 +3,7 @@ import "./App.css";
 import { MovieList } from "./components/MovieList/MovieList";
 import { DisplayBanner } from "./components/DisplayBanner/DisplayBanner";
 import { NominationList } from "./components/NominationList/NominationList";
+import { canBeNominated } from "./utils";
 
 /**
  * TODO
@@ -27,12 +28,12 @@ const App = () => {
         (nominee) => nominee.movie.imdbID !== { movie }.movie.imdbID
       )
     );
-    movie.Nominated = false;
   };
 
   const clearInput = () => {
     setSearchQuery("");
   };
+
   const callSearch = (e) => {
     e.preventDefault();
     search(searchQuery);
@@ -58,8 +59,11 @@ const App = () => {
   };
 
   const nominateMovie = (movie) => {
-    setNominees((nominees) => nominees.concat({ movie }));
-    movie.Nominated = true;
+    if (!canBeNominated(movie, nominees)) {
+      return;
+    }
+
+    setNominees([...nominees, { movie }]);
   };
 
   return (
